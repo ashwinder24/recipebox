@@ -1,0 +1,40 @@
+= form_for @recipe do |f|
+  #error_explanation{:style => "display:none;"}
+    %ul
+      - if @recipe.errors.any?
+        - @recipe.errors.full_messages.each do |msg|
+          %li= msg
+  .fields
+    = f.label :Name
+    %br/
+    = f.text_field :name
+    %br/
+    = f.label :Description
+    %br/
+    = f.text_field :description
+    %br/
+    %br
+    %h2 Ingredients
+
+
+
+    #fixins
+      = f.fields_for :fixins do |fixin|
+        = render 'fixin_fields', f: fixin
+    .links
+      = link_to_add_association 'add fixin', f, :fixins, 'data-association-insertion-method' => 'append'
+
+    %h2 Prep Steps
+
+
+    #steps
+      = f.fields_for :steps do |step|
+        = render 'step_fields', f: step
+    .links
+      = link_to_add_association 'add step', f, :steps, 'data-association-insertion-method' => 'append'
+      %br
+    %br
+    = f.submit
+    %br
+
+.success-message
